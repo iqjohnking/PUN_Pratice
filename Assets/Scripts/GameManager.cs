@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager instance;
     string gameVersion = "1.0";
-
+    public static GameObject localPlayer;
 
     void Awake()
     {
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.GameVersion = gameVersion;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
     public override void OnConnected()
     {
@@ -45,8 +47,28 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        Debug.Log("Joined room!!");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("Created room!!");
+            PhotonNetwork.LoadLevel("GameScene");
+        }
+        else
+        {
+            Debug.Log("Joined room!!");
+        }
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!PhotonNetwork.InRoom)
+        {
+            return;
+        }
+        localPlayer = PhotonNetwork.Instantiate("TankPlayer", new Vector3(0, 0, 0), Quaternion.identity, 0);
+        Debug.Log("Player Instance ID: " + localPlayer.GetInstanceID());
+    }
+
+
     public void JoinGameRoom()
     {
         var options = new RoomOptions
@@ -55,6 +77,5 @@ public class GameManager : MonoBehaviourPunCallbacks
         };
         PhotonNetwork.JoinOrCreateRoom("Gensoukyou", options, null);
     }
-
 
 }
