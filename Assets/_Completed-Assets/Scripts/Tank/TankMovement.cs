@@ -75,6 +75,14 @@ namespace Complete
             // Store the value of both input axes.
             m_MovementInputValue = Input.GetAxis (m_MovementAxisName);
             m_TurnInputValue = Input.GetAxis (m_TurnAxisName);
+            //模擬開車的方向
+            Debug.Log(m_TurnInputValue);
+            if(Input.GetKey(KeyCode.S)&& (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) ) )
+            {
+                m_TurnInputValue = -(Input.GetAxis(m_TurnAxisName));
+            }
+
+
 
             EngineAudio ();
         }
