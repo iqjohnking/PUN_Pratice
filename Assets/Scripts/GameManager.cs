@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (!PhotonNetwork.InRoom)
@@ -77,5 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         };
         PhotonNetwork.JoinOrCreateRoom("Gensoukyou", options, null);
     }
+
+
 
 }
