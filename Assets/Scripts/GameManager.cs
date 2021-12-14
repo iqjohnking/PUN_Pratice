@@ -15,13 +15,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (instance != null)
         {
-            //¤£¯à¦³­«½ÆªºGM¥X²{
+            //ä¸èƒ½æœ‰é‡è¤‡çš„GM
             Debug.LogErrorFormat(gameObject, $"Multiple instances of {GetType().Name} is not allow");
             DestroyImmediate(gameObject);
             return;
         }
         PhotonNetwork.AutomaticallySyncScene = true;
-        //¤Á´«scene®É¤£§R°£GM
+        //åˆ‡æ›sceneæ™‚ä¸åˆªé™¤GMï¼Œæœƒç¹¼çºŒå­˜åœ¨
         DontDestroyOnLoad(gameObject);
         return;
 
