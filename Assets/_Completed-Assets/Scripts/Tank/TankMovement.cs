@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Tanks;
 
 namespace Complete
 {
@@ -19,6 +20,10 @@ namespace Complete
         private float m_TurnInputValue;             // The current value of the turn input.
         private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
         private ParticleSystem[] m_particleSystems; // References to all the particles systems used by the Tanks
+
+        private string m_SpinAxisName;              // The name of the input axis for spining.
+        private float m_SpinInputValue;             // The current value of the Spin input.
+        private GameObject m_TankTurret;            // TankTurret
 
         private void Awake ()
         {
@@ -64,9 +69,15 @@ namespace Complete
             // The axes names are based on player number.
             m_MovementAxisName = "Vertical";
             m_TurnAxisName = "Horizontal";
+            m_SpinAxisName = "Spin";
 
             // Store the original pitch of the audio source.
             m_OriginalPitch = m_MovementAudio.pitch;
+
+            //
+            m_TankTurret = transform.FindAnyChild<Transform>("TankTurret").gameObject;
+
+
         }
 
 
@@ -75,6 +86,7 @@ namespace Complete
             // Store the value of both input axes.
             m_MovementInputValue = Input.GetAxis (m_MovementAxisName);
             m_TurnInputValue = Input.GetAxis (m_TurnAxisName);
+            m_SpinInputValue = Input.GetAxis (m_SpinAxisName);
             //模擬開車的方向
             Debug.Log(m_TurnInputValue);
             if(Input.GetKey(KeyCode.S)&& (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) ) )
@@ -138,12 +150,15 @@ namespace Complete
         {
             // Determine the number of degrees to be turned based on the input, speed and time between frames.
             float turn = m_TurnInputValue * m_TurnSpeed * Time.deltaTime;
-
+            float spin = m_SpinInputValue * m_TurnSpeed * Time.deltaTime;
             // Make this into a rotation in the y axis.
             Quaternion turnRotation = Quaternion.Euler (0f, turn, 0f);
 
             // Apply this rotation to the rigidbody's rotation.
             m_Rigidbody.MoveRotation (m_Rigidbody.rotation * turnRotation);
+
+            m_TankTurret.transform.Rotate(new Vector3(0.0f , spin, 0.0f));
+
         }
     }
 }

@@ -23,7 +23,6 @@ namespace Complete
         private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
         private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
 
-
         public override void OnEnable()
         {
             base.OnEnable();
@@ -103,5 +102,7 @@ namespace Complete
             // Reset the launch force.  This is a precaution in case of missing button events.
             m_CurrentLaunchForce = m_MinLaunchForce;
         }
+
+
     }
 }

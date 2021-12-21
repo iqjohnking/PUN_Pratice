@@ -22,8 +22,10 @@ namespace Tanks
             }
             //如果沒有就創建
             instance = this;
+
             m_ui = transform.FindAnyChild<Transform>("UI").gameObject;
             m_joinGameButton = transform.FindAnyChild<Button>("JoinGameButton");
+            
             m_ui.SetActive(true);
             m_joinGameButton.interactable = false;
         }
